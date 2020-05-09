@@ -1,0 +1,25 @@
+/routes/
+.class
+
+#IntelliJ IDEA
+.idea
+*.iml
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Output of 'npm pack'
+*.tgz
