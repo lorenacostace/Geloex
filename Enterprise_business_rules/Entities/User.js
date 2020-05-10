@@ -1,56 +1,57 @@
 'use strict';
 
 class User {
-    constructor(name, fSurname, sSurname, email, role) {
-        this.name = name;
-        this.fSurname = fSurname;
-        this.sSurname = sSurname;
-        this.email = email;
-        this.role = role;
-    }
-    getName() {
-        return this.name;
-    }
+  constructor(name, fSurname, sSurname, email, role) {
+    this.name = name;
+    this.fSurname = fSurname;
+    this.sSurname = sSurname;
+    this.email = email;
+    this.role = role;
+  }
 
-    getFSurname() {
-        return this.fSurname;
-    }
+  getName() {
+    return this.name;
+  }
 
-    getSSurname() {
-        return this.sSurname;
-    }
+  getFSurname() {
+    return this.fSurname;
+  }
 
-    getFullName(){
-        return this.getName() + " " + this.getFSurname() + " " + this.getSSurname();
-    }
+  getSSurname() {
+    return this.sSurname;
+  }
 
-    getEmail() {
-        return this.email;
-    }
+  getFullName() {
+    return `${this.getName()} ${this.getFSurname()} ${this.getSSurname()}`;
+  }
 
-    getRole() {
-        return this.role;
-    }
+  getEmail() {
+    return this.email;
+  }
 
-    setName(name) {
-        this.name = name;
-    }
+  getRole() {
+    return this.role;
+  }
 
-    setFSurname(fSurname) {
-        this.fSurname = fSurname;
-    }
+  setName(name) {
+    this.name = name;
+  }
 
-    setSSurname(sSurname) {
-        this.sSurname = sSurname;
-    }
+  setFSurname(fSurname) {
+    this.fSurname = fSurname;
+  }
 
-    setEmail(email) {
-        this.email = email;
-    }
+  setSSurname(sSurname) {
+    this.sSurname = sSurname;
+  }
 
-    setRole(role) {
-        this.role = role;
-    }
+  setEmail(email) {
+    this.email = email;
+  }
+
+  setRole(role) {
+    this.role = role;
+  }
 }
 
 module.exports = User;
