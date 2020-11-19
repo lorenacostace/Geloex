@@ -2,10 +2,10 @@
 
 const User = require('./User');
 
-class Student extends User {
+class AdminExam extends User {
   constructor({ userData }) {
     super({ userData });
   }
 }
 
-module.exports = Student;
+module.exports = AdminExam;

@@ -1,51 +1,37 @@
-'use strict';
 
 class Exam {
-  constructor(subject, year, teacher) {
-    this.subject = subject;
-    this.year = year;
+  constructor({ subject, teacher, students }) {
     this.teacher = teacher;
+    this.subject = subject;
+    this.students = students;
+    this.space = null;
+    this.date = null;
+    this.state = null;
   }
 
   getSubject() {
     return this.subject;
   }
 
-  getYear() {
-    return this.year;
-  }
-
-  getStartTime() {
-    return this.startTime;
-  }
-
-  getDuration() {
-    return this.duration;
-  }
-
   getTeacher() {
     return this.teacher;
+  }
+
+  getStudents() {
+    return this.students;
   }
 
   setSubject(subject) {
     this.subject = subject;
   }
 
-  setYear(year) {
-    this.year = year;
-  }
-
-  setStartTime(startTime) {
-    this.startTime = startTime;
-  }
-
-  setDuration(duration) {
-    this.duration = duration;
-  }
-
   setTeacher(teacher) {
     this.teacher = teacher;
   }
+
+  setStudents(students) {
+    this.teacher = students;
+  }
 }
 
-module.export = Exam;
+module.exports = Exam;

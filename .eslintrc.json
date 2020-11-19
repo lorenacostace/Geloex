@@ -15,7 +15,10 @@
         "ecmaVersion": 2018
     },
     "rules": {
-      "strict": "off"
+      "strict": "off",
+      "object-curly-newline": "off",
+      "class-methods-use-this": "warn",
+      "no-unused-vars": "off"
     },
   "ignorePatterns": [
     "node_modules/"

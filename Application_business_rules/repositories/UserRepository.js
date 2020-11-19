@@ -5,18 +5,28 @@ class UserRepository {
     this.repository = repository;
   }
 
-  getList(id, role) {
-    // Tipo profesor
-    if (role === 'profesor') {
-      // Conseguimos los usuarios
-      // Filtramos
-    }
+  createUser({ teacherData }) {
+    return this.repository.createUser({ teacherData });
+  }
 
-    // Tipo administrador de sistema
-    if (role === 'adminS') {
-      // Conseguimos los usuarios
-    }
-    return this.repository.find();
+  deleteUser(id) {
+    return this.repository.deleteUser(id);
+  }
+
+  getListUsers() {
+    return this.repository.getListUsers();
+  }
+
+  updateUser({ teacherData }) {
+    return this.repository.updateUser({ teacherData });
+  }
+
+  getByEmail(email) {
+    return this.repository.getByEmail(email);
+  }
+
+  getUser(id) {
+    return this.repository.getUser(id);
   }
 }
 

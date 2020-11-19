@@ -1,7 +1,9 @@
-'use strict';
 
 class User {
-  constructor(name, fSurname, sSurname, email, role) {
+  constructor({ userData }) {
+    const {
+      name, fSurname, sSurname, email, role,
+    } = userData;
     this.name = name;
     this.fSurname = fSurname;
     this.sSurname = sSurname;
@@ -51,6 +53,16 @@ class User {
 
   setRole(role) {
     this.role = role;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      fSurname: this.fSurname,
+      sSurname: this.sSurname,
+      email: this.email,
+      role: this.role,
+    };
   }
 }
 

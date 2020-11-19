@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node ./Frameworks_drivers/webServer/server.js",
     "start-es6": "node --experimental-modules ./bin/www.mjs",
     "lint": "eslint . -c ./.eslintrc.json",
     "lint-node": "eslint . --ext .js --env node --ignore-pattern node_modules/ -c ./.eslintrc.json"
@@ -20,12 +20,15 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "morgan": "~1.9.1"
+    "express-validation": "^3.0.2",
+    "husky": "^3.1.0",
+    "morgan": "~1.9.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.4"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "husky": "^4.2.5"
+    "eslint-plugin-import": "^2.20.2"
   }
 }

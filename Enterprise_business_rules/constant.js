@@ -1,0 +1,10 @@
+const ROLES = {
+  TEACHER: 'TEACHER',
+  STUDENT: 'STUDENT',
+  ADMIN_SYS: 'SYSTEMS ADMINISTRATOR',
+  ADMIN_EXAM: 'EXAMS ADMINISTRATOR',
+};
+
+module.exports = {
+  ROLES,
+};
