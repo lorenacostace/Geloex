@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./Frameworks_drivers/webServer/server.js",
+    "start": "node Frameworks_drivers/WebServer/server.js",
     "start-es6": "node --experimental-modules ./bin/www.mjs",
     "lint": "eslint . -c ./.eslintrc.json",
     "lint-node": "eslint . --ext .js --env node --ignore-pattern node_modules/ -c ./.eslintrc.json"
@@ -32,3 +32,4 @@
     "eslint-plugin-import": "^2.20.2"
   }
 }
+

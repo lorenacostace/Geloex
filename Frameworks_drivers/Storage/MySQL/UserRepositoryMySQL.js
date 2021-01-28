@@ -1,9 +1,9 @@
 'use strict';
 
-const { User } = require('../../../Frameworks_drivers/database/sequelize');
+const { User } = require('../../ORM/sequelize');
 
-const ResponseError = require('../../../Enterprise_business_rules/Entities/ResponseError');
-const { TYPES_ERROR } = require('../../../Enterprise_business_rules/codeError');
+const ResponseError = require('../../../Enterprise_business_rules/Manage_error/ResponseError');
+const { TYPES_ERROR } = require('../../../Enterprise_business_rules/Manage_error/codeError');
 
 class UserRepositoryMySQL {
   constructor() {

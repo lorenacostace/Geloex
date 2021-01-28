@@ -1,6 +1,6 @@
 'use strict';
 
-const { TYPES_ERROR } = require('../../Enterprise_business_rules/codeError');
+const { TYPES_ERROR } = require('../Enterprise_business_rules/Manage_error/codeError');
 
 module.exports = (response) => {
   const typesError = {

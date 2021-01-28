@@ -1,5 +1,5 @@
-const ResponseError = require('../../../Enterprise_business_rules/Entities/ResponseError');
-const { TYPES_ERROR } = require('../../../Enterprise_business_rules/codeError');
+const ResponseError = require('../../../Enterprise_business_rules/Manage_error/ResponseError');
+const { TYPES_ERROR } = require('../../../Enterprise_business_rules/Manage_error/codeError');
 
 module.exports = async ({ teacherData }, { userRepositoryMySQL }) => {
   // Se comprueba que se ha recibido el id

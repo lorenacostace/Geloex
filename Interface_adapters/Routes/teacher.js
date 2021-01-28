@@ -1,10 +1,10 @@
 const router = require('express').Router();
 
-const TeacherController = require('../../Interface_adapters/controllers/TeacherController');
+const TeacherController = require('../Controllers/TeacherController');
 
-const ResponseError = require('../../Enterprise_business_rules/Entities/ResponseError');
-const { TYPES_ERROR } = require('../../Enterprise_business_rules/codeError');
-const errorToStatus = require('./errorToStatus');
+const ResponseError = require('../../Enterprise_business_rules/Manage_error/ResponseError');
+const { TYPES_ERROR } = require('../../Enterprise_business_rules/Manage_error/codeError');
+const errorToStatus = require('../../Frameworks_drivers/errorToStatus');
 
 /* List Teachers */
 router.get('/', async (req, res, next) => {

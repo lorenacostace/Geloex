@@ -1,13 +1,13 @@
-const CreateTeacher = require('../../Application_business_rules/use_cases/Teacher/CreateTeacher');
-const DeleteTeacher = require('../../Application_business_rules/use_cases/Teacher/DeleteTeacher');
-const ListTeachers = require('../../Application_business_rules/use_cases/Teacher/ListTeachers');
-const UpdateTeacher = require('../../Application_business_rules/use_cases/Teacher/UpdateTeacher');
-const GetTeacher = require('../../Application_business_rules/use_cases/Teacher/GetTeacher');
+const CreateTeacher = require('../../Application_business_rules/Use_cases/Teacher/CreateTeacher');
+const DeleteTeacher = require('../../Application_business_rules/Use_cases/Teacher/DeleteTeacher');
+const ListTeachers = require('../../Application_business_rules/Use_cases/Teacher/ListTeachers');
+const UpdateTeacher = require('../../Application_business_rules/Use_cases/Teacher/UpdateTeacher');
+const GetTeacher = require('../../Application_business_rules/Use_cases/Teacher/GetTeacher');
 
 const TeacherEntity = require('../../Enterprise_business_rules/Entities/Teacher');
 
-const UserRepository = require('../../Application_business_rules/repositories/UserRepository');
-const UserRepositoryMySQL = require('../storage/MySQL/UserRepositoryMySQL');
+const UserRepository = require('../../Enterprise_business_rules/Repositories/UserRepository');
+const UserRepositoryMySQL = require('../../Frameworks_drivers/Storage/MySQL/UserRepositoryMySQL');
 
 const userRepositoryMySQL = new UserRepository(new UserRepositoryMySQL());
 

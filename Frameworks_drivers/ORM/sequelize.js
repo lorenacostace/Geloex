@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-const UserModel = require('./Models/user');
+const UserModel = require('../Database/Models/user');
 
 const sequelize = new Sequelize('Geloex', 'root', 'password', {
   host: 'localhost',

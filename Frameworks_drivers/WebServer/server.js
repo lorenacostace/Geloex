@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
 const express = require('express');
-// const { validate, ValidationError, Joi } = require('express-validation');
+const { validate, ValidationError, Joi } = require('express-validation');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 // const adminSystem = require('./adminSystem');
-const teacherRouter = require('./teacher');
+const teacherRouter = require('../../Interface_adapters/Routes/teacher');
 
-const ResponseError = require('../../Enterprise_business_rules/Entities/ResponseError');
+const ResponseError = require('../../Enterprise_business_rules/Manage_error/ResponseError');
 
 const app = express();
 app.use(logger('dev'));
@@ -18,9 +18,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('../database/sequelize');
+require('../ORM/sequelize');
 
-/* const UserValidation = {
+const UserValidation = {
   body: Joi.object({
     name: Joi.string()
       .required(),
@@ -36,9 +36,8 @@ require('../database/sequelize');
     id: Joi.number()
       .integer(),
   }),
-}; */
+};
 
-// app.use('/users', users);
 // app.use('/AdminSystem', validate(UserValidation, {}, {}), adminSystem);
 app.use('/teacher', teacherRouter);
 app.all('*', (req, res, next) => {
