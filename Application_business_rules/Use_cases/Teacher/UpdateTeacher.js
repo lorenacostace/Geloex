@@ -14,7 +14,7 @@ module.exports = async ({ teacherData }, { userRepositoryMySQL }) => {
   }
   // Se comprueba que al menos se ha recibido un parámetro para modificar
   const { name, fSurname, sSurname, email, role } = teacherData;
-  if (!name && !fSurname && sSurname && email && role) {
+  if (!name && !fSurname && !sSurname && !email && !role) {
     throw new ResponseError(TYPES_ERROR.ERROR, 'Es necesario al menos un parámetro para actualizar', 'incomplete_data');
   }
   return userRepositoryMySQL.updateUser({ teacherData });
