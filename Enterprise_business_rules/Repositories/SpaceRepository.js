@@ -20,6 +20,14 @@ class SpaceRepository {
   getName(name) {
     return this.repository.getName(name);
   }
+
+  getSpace(id) {
+    return this.repository.getSpace(id);
+  }
+
+  updateSpace(spaceData) {
+    return this.repository.updateSpace(spaceData);
+  }
 }
 
 module.exports = SpaceRepository;

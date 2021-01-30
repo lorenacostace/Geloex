@@ -1,9 +1,11 @@
 'use strict';
 
+const ResponseError = require('../Manage_error/ResponseError');
+const { TYPES_ERROR } = require('../Manage_error/codeError');
+
 module.exports = class {
   constructor({ spaceData }) {
-    const { id, name, numRows, numSeats, isLab } = spaceData;
-    this.id = id;
+    const { name, numRows, numSeats, isLab } = spaceData;
     this.name = name;
     this.numRows = numRows;
     this.numSeats = numSeats;
@@ -11,7 +13,10 @@ module.exports = class {
   }
 
   getId() {
-    return this.id;
+    if (this.id) {
+      return this.id;
+    }
+    throw new ResponseError(TYPES_ERROR.ERROR, 'Es necesario al menos un parámetro para actualizar', 'incomplete_data');
   }
 
   getName() {
@@ -28,6 +33,10 @@ module.exports = class {
 
   isLab() {
     return this.isLab;
+  }
+
+  setId(id) {
+    this.id = id;
   }
 
   setName(name) {
