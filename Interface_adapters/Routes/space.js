@@ -26,6 +26,16 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+/* List Spaces */
+router.get('/', async (req, res, next) => {
+  try {
+    const spaces = await SpaceController.listSpaces();
+    res.json(spaces);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // eslint-disable-next-line no-unused-vars
 router.use((err, req, res, next) => {
   const status = errorToStatus(err);

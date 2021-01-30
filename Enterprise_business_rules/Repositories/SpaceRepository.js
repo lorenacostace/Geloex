@@ -9,6 +9,10 @@ class SpaceRepository {
     return this.repository.createSpace({ spaceData });
   }
 
+  getSpaces() {
+    return this.repository.getSpaces();
+  }
+
   getName(name) {
     return this.repository.getName(name);
   }
