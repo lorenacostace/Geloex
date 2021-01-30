@@ -1,8 +1,10 @@
 'use strict';
 
 module.exports = class {
-  constructor(id = null, numRows, numSeats, isLab) {
+  constructor({ spaceData }) {
+    const { id, name, numRows, numSeats, isLab } = spaceData;
     this.id = id;
+    this.name = name;
     this.numRows = numRows;
     this.numSeats = numSeats;
     this.isLab = isLab;
@@ -10,6 +12,10 @@ module.exports = class {
 
   getId() {
     return this.id;
+  }
+
+  getName() {
+    return this.name;
   }
 
   getRows() {
@@ -24,11 +30,28 @@ module.exports = class {
     return this.isLab;
   }
 
+  setName(name) {
+    this.name = name;
+  }
+
   setRows(numRows) {
     this.numRows = numRows;
   }
 
   setSeats(numSeats) {
     this.numSeats = numSeats;
+  }
+
+  setisLab(islab) {
+    this.isLab = islab;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      numRows: this.numRows,
+      numSeats: this.numSeats,
+      isLab: this.isLab,
+    };
   }
 };

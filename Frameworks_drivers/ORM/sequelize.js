@@ -3,6 +3,7 @@
 const Sequelize = require('sequelize');
 
 const UserModel = require('../Database/Models/user');
+const SpaceModel = require('../Database/Models/space');
 
 const sequelize = new Sequelize('Geloex', 'root', 'password', {
   host: 'localhost',
@@ -10,7 +11,9 @@ const sequelize = new Sequelize('Geloex', 'root', 'password', {
   dialect: 'mysql',
 });
 
+/* Ubicación donde las instancias de los Modelos son creadas */
 const User = UserModel(sequelize, Sequelize);
+const Space = SpaceModel(sequelize, Sequelize);
 
 // Sincronizamos con la base de datos
 sequelize.sync({ force: false })
@@ -21,5 +24,5 @@ sequelize.sync({ force: false })
 
 // Exporto los objetos que voy a necesitar
 module.exports = {
-  User,
+  User, Space,
 };

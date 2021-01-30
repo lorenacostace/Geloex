@@ -1,6 +1,6 @@
 'use strict';
 
-const _serializeSingleUser = (user) => ({
+const serializeSingleUser = (user) => ({
   id: user.id,
   'first-name': user.firstName,
   'last-name': user.lastName,
@@ -8,13 +8,14 @@ const _serializeSingleUser = (user) => ({
 });
 
 module.exports = class {
+  // eslint-disable-next-line class-methods-use-this
   serialize(data) {
     if (!data) {
       throw new Error('Expect data to be not undefined nor null');
     }
     if (Array.isArray(data)) {
-      return data.map(_serializeSingleUser);
+      return data.map(serializeSingleUser);
     }
-    return _serializeSingleUser(data);
+    return serializeSingleUser(data);
   }
 };
