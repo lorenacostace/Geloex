@@ -48,7 +48,6 @@ class UserRepositoryMySQL {
     return this.model.findOne({ where: { email: userEmail } });
   }
 
-
   async getListUsers() {
     try {
       return this.model.findAll();
