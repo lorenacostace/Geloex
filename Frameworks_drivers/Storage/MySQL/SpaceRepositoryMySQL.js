@@ -27,7 +27,7 @@ class SpaceRepositoryMySQL {
     }
   }
 
-  getName(name) {
+  async getName(name) {
     return this.model.findOne({ where: { name } });
   }
 }

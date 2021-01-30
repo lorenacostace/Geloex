@@ -36,6 +36,20 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+/* Get Space */
+router.get('/:name', async (req, res, next) => {
+  try {
+    const { name } = req.params;
+    if (!name) {
+      throw new ResponseError(TYPES_ERROR.ERROR, 'Es necesario seleccionar un aula o laboratorio', 'incomplete_data');
+    }
+    const space = await SpaceController.getSpace(name);
+    res.json(space);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // eslint-disable-next-line no-unused-vars
 router.use((err, req, res, next) => {
   const status = errorToStatus(err);
