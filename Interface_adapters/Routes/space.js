@@ -50,6 +50,21 @@ router.get('/:name', async (req, res, next) => {
   }
 });
 
+/* Delete Space */
+router.delete('/:name', async (req, res, next) => {
+  try {
+    // Comprobamos que el ID es un número
+    if (!req.params.name) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'El nombre es necesario para eliminar un aula o laboratorio', 'name_empty');
+    }
+
+    await SpaceController.deleteSpace(req.params.name);
+    res.json({ state: 'OK' });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // eslint-disable-next-line no-unused-vars
 router.use((err, req, res, next) => {
   const status = errorToStatus(err);

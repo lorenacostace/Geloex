@@ -9,6 +9,10 @@ class SpaceRepository {
     return this.repository.createSpace({ spaceData });
   }
 
+  deleteSpace(id) {
+    return this.repository.deleteSpace(id);
+  }
+
   getSpaces() {
     return this.repository.getSpaces();
   }

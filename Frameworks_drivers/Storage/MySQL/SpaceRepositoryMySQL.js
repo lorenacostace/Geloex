@@ -30,6 +30,10 @@ class SpaceRepositoryMySQL {
   async getName(name) {
     return this.model.findOne({ where: { name } });
   }
+
+  async deleteSpace(idSpace) {
+    return this.model.destroy({ where: { id: idSpace } });
+  }
 }
 
 module.exports = SpaceRepositoryMySQL;

@@ -1,6 +1,7 @@
 const CreateSpace = require('../../Application_business_rules/Use_cases/Space/CreateSpace');
 const ListSpaces = require('../../Application_business_rules/Use_cases/Space/ListSpaces');
 const GetSpace = require('../../Application_business_rules/Use_cases/Space/GetSpace');
+const DeleteSpace = require('../../Application_business_rules/Use_cases/Space/DeleteSpace');
 
 const SpaceEntity = require('../../Enterprise_business_rules/Entities/Space');
 
@@ -21,5 +22,9 @@ module.exports = {
 
   async getSpace(name) {
     return GetSpace(name, { spaceRepositoryMySQL });
+  },
+
+  async deleteSpace(name) {
+    return DeleteSpace(name, { spaceRepositoryMySQL });
   },
 };
