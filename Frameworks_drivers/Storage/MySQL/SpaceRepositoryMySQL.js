@@ -15,7 +15,7 @@ class SpaceRepositoryMySQL {
     try {
       return this.model.create({ name, numRows, numSeats, isLab });
     } catch (err) {
-      throw new ResponseError(TYPES_ERROR.FATAL, 'Fallo al crear el usuario', 'error_create_user');
+      throw new ResponseError(TYPES_ERROR.FATAL, 'Fallo al crear el aula o laboratorio', 'error_create_space');
     }
   }
 
