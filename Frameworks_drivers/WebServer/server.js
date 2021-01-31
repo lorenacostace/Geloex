@@ -9,6 +9,7 @@ const logger = require('morgan');
 // const adminSystem = require('./adminSystem');
 const teacherRouter = require('../../Interface_adapters/Routes/teacher');
 const spaceRouter = require('../../Interface_adapters/Routes/space');
+const subjectRouter = require('../../Interface_adapters/Routes/subject');
 
 const ResponseError = require('../../Enterprise_business_rules/Manage_error/ResponseError');
 
@@ -42,6 +43,7 @@ const UserValidation = {
 // app.use('/AdminSystem', validate(UserValidation, {}, {}), adminSystem);
 app.use('/teacher', teacherRouter);
 app.use('/space', spaceRouter);
+app.use('/subject', subjectRouter);
 app.all('*', (req, res, next) => {
   next(new ResponseError(`No se puede encontrar ${req.originalUrl} en este servidor`, 404));
 });
