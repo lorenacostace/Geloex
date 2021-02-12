@@ -1,58 +1,73 @@
 'use strict';
 
-const { User } = require('../../ORM/sequelize');
+const { User, Role, Op } = require('../../ORM/sequelize');
 
 const ResponseError = require('../../../Enterprise_business_rules/Manage_error/ResponseError');
 const { TYPES_ERROR } = require('../../../Enterprise_business_rules/Manage_error/codeError');
 
 class UserRepositoryMySQL {
   constructor() {
-    this.model = User;
+    this.UserModel = User;
+    this.RoleModel = Role;
   }
 
-  async createUser({ teacherData }) {
-    const { name, fSurname, sSurname, email, role } = teacherData;
+  async addRole({ roleData }) {
+    const { idUser, role } = roleData;
     try {
-      return this.model.create({ name, fSurname, sSurname, email, role });
+      return this.RoleModel.create({ idUser, role });
+    } catch (err) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'Fallo al añadir el rol', 'error_create_user');
+    }
+  }
+
+  async createUser({ userData }) {
+    const { name, fSurname, sSurname, email } = userData;
+    try {
+      return this.UserModel.create({ name, fSurname, sSurname, email });
     } catch (err) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'Fallo al crear el usuario', 'error_create_user');
     }
   }
 
-  async updateUser({ teacherData }) {
-    const { id, name, fSurname, sSurname, email } = teacherData;
-    const userData = {
-      name,
-      fSurname,
-      sSurname,
-      email,
-    };
-    const user = await this.model.findByPk(id);
-    if (!user) {
-      return new ResponseError(TYPES_ERROR.FATAL, 'El usuario no existe', 'user_not_exist');
-    }
-    try {
-      return this.model.update(userData, {
-        where: { id },
-      });
-    } catch (err) {
-      return new ResponseError(TYPES_ERROR.FATAL, 'Fallo al actualizar el usuario', 'error_user_update');
-    }
+  async deleteUser(userId) {
+    return this.UserModel.destroy({ where: { id: userId } });
   }
 
-  async deleteUser(teacherId) {
-    return this.model.destroy({ where: { id: teacherId } });
+  async deleteRole({ roleData }) {
+    const { idUser, role } = roleData;
+    return this.RoleModel.destroy({
+      where: {
+        idUser, role,
+      },
+    });
   }
 
   async getByEmail(userEmail) {
-    return this.model.findOne({ where: { email: userEmail } });
+    return this.UserModel.findOne({ where: { email: userEmail } });
   }
 
   async getListUsers() {
     try {
-      return this.model.findAll();
+      return this.UserModel.findAll();
     } catch (err) {
       return new ResponseError(TYPES_ERROR.ERROR, 'No existen usuarios', 'users_not_exist');
+    }
+  }
+
+  async getRole({ userRoleData }) {
+    const { idUser, role } = userRoleData;
+    if (!idUser) {
+      return new ResponseError(TYPES_ERROR.FATAL, 'El id es necesario', 'id_empty');
+    }
+    try {
+      const roleUser = await this.RoleModel.findOne({
+        where: {
+          role, idUser,
+        },
+      });
+      return roleUser;
+    } catch (err) {
+      return new ResponseError(TYPES_ERROR.FATAL, 'El usuario no existe', 'user_not_exist');
     }
   }
 
@@ -61,9 +76,67 @@ class UserRepositoryMySQL {
       return new ResponseError(TYPES_ERROR.FATAL, 'El id es necesario', 'id_empty');
     }
     try {
-      return this.model.findByPk(id);
+      return this.UserModel.findByPk(id);
     } catch (err) {
       return new ResponseError(TYPES_ERROR.FATAL, 'El usuario no existe', 'user_not_exist');
+    }
+  }
+
+  async userRoles(id) {
+    if (!id) {
+      return new ResponseError(TYPES_ERROR.FATAL, 'El id es necesario', 'id_empty');
+    }
+    try {
+      const aux = await this.RoleModel.findAll({ where: { idUser: id } });
+      return aux;
+    } catch (err) {
+      return new ResponseError(TYPES_ERROR.FATAL, 'El usuario no existe', 'user_not_exist');
+    }
+  }
+
+  /**
+   * Update User
+   * @param {} teacherData
+   * @returns {Promise<ResponseError| Promise>}
+   */
+  async updateUser({ teacherData }) {
+    const { id, name, fSurname, sSurname, email } = teacherData;
+    const userData = {
+      name,
+      fSurname,
+      sSurname,
+      email,
+    };
+    const user = await this.UserModel.findByPk(id);
+    if (!user) {
+      return new ResponseError(TYPES_ERROR.FATAL, 'El usuario no existe', 'user_not_exist');
+    }
+    try {
+      return this.UserModel.update(userData, {
+        where: { id },
+      });
+    } catch (err) {
+      return new ResponseError(TYPES_ERROR.FATAL, 'Fallo al actualizar el usuario', 'error_user_update');
+    }
+  }
+
+  async modifyRole({ userRoleData }) {
+    const { idUser, roleCurrent, roleNew } = userRoleData;
+
+    // Se comprueba que el usuario existe
+    const user = await this.UserModel.findByPk(idUser);
+    if (!user) {
+      return new ResponseError(TYPES_ERROR.FATAL, 'El usuario no existe', 'user_not_exist');
+    }
+
+    try {
+      return this.RoleModel.update({ role: roleNew }, {
+        where: {
+          idUser, role: roleCurrent,
+        },
+      });
+    } catch (err) {
+      return new ResponseError(TYPES_ERROR.FATAL, 'Fallo al actualizar el usuario', 'error_user_update');
     }
   }
 }
