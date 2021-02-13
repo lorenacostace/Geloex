@@ -7,9 +7,19 @@ const { TYPES_ERROR } = require('../../Enterprise_business_rules/Manage_error/co
 const errorToStatus = require('../../Frameworks_drivers/errorToStatus');
 
 /* List Teachers */
-router.get('/', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
-    const teachers = await TeacherController.listTeachers();
+    // Comprobamos que se reciben el idAdmin y el idUser
+    if (!req.params.id) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'El ID es necesario para listar los usuarios', 'incomplete_data');
+    }
+
+    // Comprobamos que los ids recibidos son números
+    if (Number.isNaN(Number(req.params.id))) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
+    }
+
+    const teachers = await TeacherController.listTeachers(req.params.id);
     res.json(teachers);
   } catch (err) {
     next(err);
@@ -19,10 +29,17 @@ router.get('/', async (req, res, next) => {
 /* Get Teacher */
 router.get('/:id', async (req, res, next) => {
   try {
-    if (Number.isNaN(Number(req.params.id))) {
+    // Comprobamos que se reciben el idAdmin y el idUser
+    if (!req.params.id || !req.body.id) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'Los ids deben ser números', 'incomplete_data');
+    }
+
+    // Comprobamos que los ids recibidos son números
+    if (Number.isNaN(Number(req.params.id)) || Number.isNaN(Number(req.body.id))) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
     }
-    const teacher = await TeacherController.getTeacher(req.params.id);
+
+    const teacher = await TeacherController.getTeacher({ usersData: { idAdmin: req.params.id, idUser: req.body.id } });
     res.json(teacher);
   } catch (err) {
     next(err);
@@ -30,14 +47,14 @@ router.get('/:id', async (req, res, next) => {
 });
 
 /* Create Teacher */
-router.post('/', async (req, res, next) => {
+router.post('/:id', async (req, res, next) => {
   try {
     const { name, fSurname, sSurname, email } = req.body;
     // Se comprueba si algún dato requerido no ha sido introducido
-    if (!name || !fSurname || !sSurname || !email) {
-      throw new ResponseError(TYPES_ERROR.ERROR, 'Los parámetros introducidos son incorrectos o están incompletos', 'incomplete_data');
+    if (!name || !fSurname || !sSurname || !email || !req.params.id) {
+      throw new ResponseError(TYPES_ERROR.ERROR, 'Los parámetros introducidos no son incorrectos o están incompletos', 'incomplete_data');
     }
-    const teacher = await TeacherController.createTeacher({ teacherData: req.body });
+    const teacher = await TeacherController.createTeacher({ teacherData: { idAdmin: req.params.id, name, fSurname, sSurname, email } });
     res.json(teacher);
   } catch (err) {
     next(err);
@@ -46,20 +63,28 @@ router.post('/', async (req, res, next) => {
 
 /* Modify Teacher */
 router.put('/:id', async (req, res, next) => {
-  const teacherData = {
-    id: req.params.id,
-    ...req.body,
-  };
   try {
-    if (Number.isNaN(Number(req.params.id))) {
-      throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
+    // Se comprueba que se ha recibido el idAdmin y el del usuario
+    if (!req.params.id || !req.body.id) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'Los IDs son necesarios para actualizar el profesor', 'id_empty');
     }
-    // Comprobamos que al menos exista un data para ser actualizado
-    const { name, fSurname, sSurname, email, role } = req.body;
-    if (!name && !fSurname && !sSurname && !email && !role) {
+
+    // Se comrprueba que los IDs sean números
+    if (Number.isNaN(Number(req.params.id)) || Number.isNaN(Number(req.body.id))) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'Los IDs deben ser números', 'id_format_error');
+    }
+    // Se comprueba que al menos exista un dato para ser actualizado
+    const { name, fSurname, sSurname, email } = req.body;
+    if (!name && !fSurname && !sSurname && !email) {
       throw new ResponseError(TYPES_ERROR.ERROR, 'Es necesario al menos un parámetro para actualizar', 'incomplete_data');
     }
-    await TeacherController.updateTeacher({ teacherData });
+
+    const usersData = {
+      idAdmin: req.params.id,
+      ...req.body,
+    };
+
+    await TeacherController.updateTeacher({ usersData });
     res.json({ state: 'OK' });
   } catch (err) {
     next(err);
@@ -69,11 +94,17 @@ router.put('/:id', async (req, res, next) => {
 /* Delete Teacher */
 router.delete('/:id', async (req, res, next) => {
   try {
-    // Comprobamos que el ID es un número
-    if (!req.params.id || Number.isNaN(Number(req.params.id))) {
+    // Comprobamos que se reciben el idAdmin y el idUser
+    if (!req.params.id || !req.body.id) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'incomplete_data');
+    }
+
+    // Comprobamos que los ids recibidos son números
+    if (Number.isNaN(Number(req.params.id)) || Number.isNaN(Number(req.body.id))) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
     }
-    await TeacherController.deleteTeacher(req.params.id);
+
+    await TeacherController.deleteTeacher({ usersData: { idAdmin: req.params.id, idUser: req.body.id } });
     res.json({ state: 'OK' });
   } catch (err) {
     next(err);

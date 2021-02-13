@@ -13,23 +13,24 @@ const userRepositoryMySQL = new UserRepository(new UserRepositoryMySQL());
 
 module.exports = {
   createTeacher({ teacherData }) {
-    const teacher = new TeacherEntity({ userData: teacherData });
-    return CreateTeacher(teacher, { userRepositoryMySQL });
+    const { idAdmin } = teacherData;
+    const teacher = new TeacherEntity({ userData: { idAdmin, ...teacherData } });
+    return CreateTeacher(idAdmin, teacher, { userRepositoryMySQL });
   },
 
-  async deleteTeacher(id) {
-    return DeleteTeacher(id, { userRepositoryMySQL });
+  async deleteTeacher({ usersData }) {
+    return DeleteTeacher({ usersData }, { userRepositoryMySQL });
   },
 
-  async listTeachers() {
-    return ListTeachers({ userRepositoryMySQL });
+  async listTeachers(idAdmin) {
+    return ListTeachers(idAdmin, { userRepositoryMySQL });
   },
 
-  async updateTeacher({ teacherData }) {
-    return UpdateTeacher({ teacherData }, { userRepositoryMySQL });
+  async updateTeacher({ usersData }) {
+    return UpdateTeacher({ usersData }, { userRepositoryMySQL });
   },
 
-  async getTeacher(id) {
-    return GetTeacher(id, { userRepositoryMySQL });
+  async getTeacher({ usersData }) {
+    return GetTeacher({ usersData }, { userRepositoryMySQL });
   },
 };
