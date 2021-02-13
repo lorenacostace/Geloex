@@ -21,6 +21,10 @@ class UserRepository {
     return this.repository.deleteRole({ roleData });
   }
 
+  deleteRoles(idUser) {
+    return this.repository.deleteRoles(idUser);
+  }
+
   getListUsers() {
     return this.repository.getListUsers();
   }
@@ -41,8 +45,8 @@ class UserRepository {
     return this.repository.modifyRole({ userRoleData });
   }
 
-  updateUser({ teacherData }) {
-    return this.repository.updateUser({ teacherData });
+  updateUser({ userData }) {
+    return this.repository.updateUser({ userData });
   }
 
   userRoles(id) {

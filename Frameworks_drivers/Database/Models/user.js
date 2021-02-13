@@ -8,5 +8,4 @@ module.exports = (sequelize, type) => sequelize.define('User', {
   fSurname: type.STRING,
   sSurname: type.STRING,
   email: type.STRING,
-  role: type.STRING,
 });
