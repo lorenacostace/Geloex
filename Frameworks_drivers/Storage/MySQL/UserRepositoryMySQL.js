@@ -42,6 +42,14 @@ class UserRepositoryMySQL {
     });
   }
 
+  async deleteRoles(idUser) {
+    return this.RoleModel.destroy({
+      where: {
+        idUser,
+      },
+    });
+  }
+
   async getByEmail(userEmail) {
     return this.UserModel.findOne({ where: { email: userEmail } });
   }
@@ -99,9 +107,9 @@ class UserRepositoryMySQL {
    * @param {} teacherData
    * @returns {Promise<ResponseError| Promise>}
    */
-  async updateUser({ teacherData }) {
-    const { id, name, fSurname, sSurname, email } = teacherData;
-    const userData = {
+  async updateUser({ userData }) {
+    const { id, name, fSurname, sSurname, email } = userData;
+    const updateData = {
       name,
       fSurname,
       sSurname,
@@ -112,7 +120,7 @@ class UserRepositoryMySQL {
       return new ResponseError(TYPES_ERROR.FATAL, 'El usuario no existe', 'user_not_exist');
     }
     try {
-      return this.UserModel.update(userData, {
+      return this.UserModel.update(updateData, {
         where: { id },
       });
     } catch (err) {
