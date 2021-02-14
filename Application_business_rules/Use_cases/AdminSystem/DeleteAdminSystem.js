@@ -31,8 +31,5 @@ module.exports = async ({ usersData }, { userRepositoryMySQL }) => {
     throw new ResponseError(TYPES_ERROR.FATAL, 'El usuario no existe', 'user_not_exist');
   }
 
-  // Se borran todos los roles de éste usuario
-  const numUserDelete = await DeleteRoles(idUser, { userRepositoryMySQL });
-
   return userRepositoryMySQL.deleteUser(idUser);
 };

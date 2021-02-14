@@ -12,12 +12,11 @@ module.exports = async (adminSys, { userRepositoryMySQL }) => {
   const userData = adminSys.toJSON();
   const adminSysInfo = await userRepositoryMySQL.createUser({ userData });
 
-  // eslint-disable-next-line max-len
   // Extraemos el id que ha sido asignado a este nuevo usuario, y lo guardamos con el rol correspondiente
   const { id } = adminSysInfo;
   const role = adminSys.getRole();
   const roleData = {
-    idUser: id,
+    UserId: id,
     role,
   };
   await userRepositoryMySQL.addRole({ roleData });
