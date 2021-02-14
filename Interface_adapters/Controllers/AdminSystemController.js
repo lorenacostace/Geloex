@@ -1,6 +1,8 @@
 const CreateAdminSystem = require('../../Application_business_rules/Use_cases/AdminSystem/CreateAdminSystem');
 const DeleteAdminSystem = require('../../Application_business_rules/Use_cases/AdminSystem/DeleteAdminSystem');
 const GetAdminSystem = require('../../Application_business_rules/Use_cases/AdminSystem/GetAdminSystem');
+const ListAdminSystem = require('../../Application_business_rules/Use_cases/AdminSystem/ListAdminSystem');
+const UpdateAdminSystem = require('../../Application_business_rules/Use_cases/AdminSystem/UpdateAdminSystem');
 
 const AdminEntity = require('../../Enterprise_business_rules/Entities/AdminSystem');
 
@@ -21,5 +23,13 @@ module.exports = {
 
   async getAdminSystem({ usersData }) {
     return GetAdminSystem({ usersData }, { userRepositoryMySQL });
+  },
+
+  async listAdminSystem(idAdmin) {
+    return ListAdminSystem(idAdmin, { userRepositoryMySQL });
+  },
+
+  async updateAdminSystem({ usersData }) {
+    return UpdateAdminSystem({ usersData }, { userRepositoryMySQL });
   },
 };

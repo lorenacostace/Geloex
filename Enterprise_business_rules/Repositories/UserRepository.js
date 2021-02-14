@@ -25,8 +25,8 @@ class UserRepository {
     return this.repository.deleteRoles(idUser);
   }
 
-  getListUsers() {
-    return this.repository.getListUsers();
+  getListUsers({ role }) {
+    return this.repository.getListUsers({ role });
   }
 
   getByEmail(email) {
