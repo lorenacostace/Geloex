@@ -22,7 +22,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-/* List Admin System */
+/* List AdminSystem */
 router.get('/', async (req, res, next) => {
   try {
     // Comprobamos que se reciben el idAdmin y el idUser
