@@ -16,7 +16,7 @@ module.exports = async ({ roleData }, { userRepositoryMySQL }) => {
     throw new ResponseError(TYPES_ERROR.FATAL, 'El idAdmin y el idUser deben ser números', 'id_format_error');
   }
 
-  // Se comprueba que el usuario con idAdmin  existe
+  // Se comprueba que el usuario con idAdmin existe
   const adminExist = await userRepositoryMySQL.getUser(idAdmin);
   if (!adminExist) {
     throw new ResponseError(TYPES_ERROR.ERROR, 'El administrador no existe', 'users_not_exist');
@@ -35,10 +35,10 @@ module.exports = async ({ roleData }, { userRepositoryMySQL }) => {
   }
 
   // Se comprueba que ese rol no está asignado a ese usuario
-  const isSameRole = await userRepositoryMySQL.getRole({ userRoleData: { idUser, role } });
+  const isSameRole = await userRepositoryMySQL.getRole({ userRoleData: { UserId: idUser, role } });
   if (isSameRole) {
     throw new ResponseError(TYPES_ERROR.ERROR, 'El usuario ya tiene asignado ese rol', 'role _assigned');
   }
 
-  return userRepositoryMySQL.addRole({ roleData: { idUser, role } });
+  return userRepositoryMySQL.addRole({ roleData: { UserId: idUser, role } });
 };
