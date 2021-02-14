@@ -18,15 +18,21 @@ module.exports = async ({ usersData }, { userRepositoryMySQL }) => {
   }
 
   // Se comprueba que el usuario con idAdmin es un administrador de sistemas
-  const isRoleAdmin = await userRepositoryMySQL.getRole({ userRoleData: { idUser: idAdmin, role: ROLES.ADMIN_SYS } });
+  const isRoleAdmin = await userRepositoryMySQL.getRole({ userRoleData: { UserId: idAdmin, role: ROLES.ADMIN_SYS } });
   if (!isRoleAdmin) {
-    throw new ResponseError(TYPES_ERROR.ERROR, 'El usuario actual necesita rol de Administrador de Sistemas para añadir un rol a un usuario', 'role _assigned');
+    throw new ResponseError(TYPES_ERROR.ERROR, 'El usuario actual necesita rol de Administrador de Sistemas para eliminar un rol a un usuario', 'role_not_assigned');
   }
 
   // Se comprueba que exista un usuario a ser eliminar
   const existUser = await userRepositoryMySQL.getUser(idUser);
   if (!existUser) {
     throw new ResponseError(TYPES_ERROR.FATAL, 'El usuario no existe', 'user_not_exist');
+  }
+
+  // Se comprueba que el usuario con idUser es un administrador de sistemas
+  const hasRoleAdmin = await userRepositoryMySQL.getRole({ userRoleData: { UserId: idUser, role: ROLES.ADMIN_SYS } });
+  if (!hasRoleAdmin) {
+    throw new ResponseError(TYPES_ERROR.ERROR, 'El usuario no tiene rol de administrador de sistemas', 'role_not_assigned');
   }
 
   return userRepositoryMySQL.deleteUser(idUser);
