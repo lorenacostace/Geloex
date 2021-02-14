@@ -1,8 +1,6 @@
 const ResponseError = require('../../../Enterprise_business_rules/Manage_error/ResponseError');
 const { TYPES_ERROR } = require('../../../Enterprise_business_rules/Manage_error/codeError');
 
-const DeleteRoles = require('../Role/DeleteRoles');
-
 const { ROLES } = require('../../../Enterprise_business_rules/constant');
 
 module.exports = async ({ usersData }, { userRepositoryMySQL }) => {

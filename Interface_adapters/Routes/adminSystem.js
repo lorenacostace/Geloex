@@ -9,9 +9,9 @@ const errorToStatus = require('../../Frameworks_drivers/errorToStatus');
 /* Create AdminSystem */
 router.post('/', async (req, res, next) => {
   try {
-    const { name, fSurname, sSurname, email } = req.body;
+    const { name, fSurname, sSurname, email, idAdmin } = req.body;
     // Se comprueba si algún dato requerido no ha sido introducido
-    if (!name || !fSurname || !sSurname || !email) {
+    if (!name || !fSurname || !sSurname || !email || idAdmin) {
       throw new ResponseError(TYPES_ERROR.ERROR, 'Los parámetros introducidos son incorrectos o están incompletos', 'incomplete_data');
     }
 
