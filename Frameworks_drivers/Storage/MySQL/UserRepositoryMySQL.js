@@ -67,7 +67,6 @@ class UserRepositoryMySQL {
         },
       });
     } catch (err) {
-      console.log(err);
       return new ResponseError(TYPES_ERROR.ERROR, 'No existen usuarios', 'users_not_exist');
     }
   }

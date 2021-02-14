@@ -22,6 +22,46 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+/* Get AdminExam */
+router.get('/:id', async (req, res, next) => {
+  try {
+    // Comprobamos que se reciben el idAdmin y el idUser
+    if (!req.params.id || !req.body.idUser) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'Los ids deben ser números', 'incomplete_data');
+    }
+
+    // Comprobamos que los ids recibidos son números
+    if (Number.isNaN(Number(req.params.id)) || Number.isNaN(Number(req.body.idUser))) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
+    }
+
+    const adminExam = await AdminExamController.getAdminExam({ usersData: { idAdmin: req.params.id, idUser: req.body.idUser } });
+    res.json(adminExam);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/* List AdminExam */
+router.get('/', async (req, res, next) => {
+  try {
+    // Comprobamos que se reciben el idAdmin y el idUser
+    if (!req.body.id) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'El ID es necesario para listar los usuarios', 'incomplete_data');
+    }
+
+    // Comprobamos que los ids recibidos son números
+    if (Number.isNaN(Number(req.body.id))) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
+    }
+
+    const adminExam = await AdminExamController.listAdminExam(req.body.id);
+    res.json(adminExam);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.use((err, req, res, next) => {
   const status = errorToStatus(err);
   res.status(status).json(err.toJSON());
