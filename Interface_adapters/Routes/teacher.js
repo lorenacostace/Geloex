@@ -7,19 +7,19 @@ const { TYPES_ERROR } = require('../../Enterprise_business_rules/Manage_error/co
 const errorToStatus = require('../../Frameworks_drivers/errorToStatus');
 
 /* List Teachers */
-router.get('/:id', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     // Comprobamos que se reciben el idAdmin y el idUser
-    if (!req.params.id) {
+    if (!req.body.id) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'El ID es necesario para listar los usuarios', 'incomplete_data');
     }
 
     // Comprobamos que los ids recibidos son números
-    if (Number.isNaN(Number(req.params.id))) {
+    if (Number.isNaN(Number(req.body.id))) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
     }
 
-    const teachers = await TeacherController.listTeachers(req.params.id);
+    const teachers = await TeacherController.listTeachers(req.body.id);
     res.json(teachers);
   } catch (err) {
     next(err);

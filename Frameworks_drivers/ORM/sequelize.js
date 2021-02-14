@@ -21,6 +21,12 @@ const Subject = SubjectModel(sequelize, Sequelize);
 const Exam = ExamModel(sequelize, Sequelize);
 const Role = RoleModel(sequelize, Sequelize);
 
+// ASSOCIATIONS
+User.hasMany(Role, {
+  allowNull: false,
+  onDelete: 'cascade',
+});
+Role.belongsTo(User);
 
 // Sincronizamos con la base de datos
 sequelize.sync({ force: false })

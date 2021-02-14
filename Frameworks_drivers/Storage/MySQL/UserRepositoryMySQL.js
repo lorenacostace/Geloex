@@ -1,5 +1,6 @@
 'use strict';
 
+const Sequelize = require('sequelize');
 const { User, Role, Op } = require('../../ORM/sequelize');
 
 const ResponseError = require('../../../Enterprise_business_rules/Manage_error/ResponseError');
@@ -12,9 +13,9 @@ class UserRepositoryMySQL {
   }
 
   async addRole({ roleData }) {
-    const { idUser, role } = roleData;
+    const { UserId, role } = roleData;
     try {
-      return this.RoleModel.create({ idUser, role });
+      return this.RoleModel.create({ UserId, role });
     } catch (err) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'Fallo al añadir el rol', 'error_create_user');
     }
@@ -54,23 +55,32 @@ class UserRepositoryMySQL {
     return this.UserModel.findOne({ where: { email: userEmail } });
   }
 
-  async getListUsers() {
+  async getListUsers({ role }) {
     try {
-      return this.UserModel.findAll();
+      return this.UserModel.findAll({
+        attributes: ['name', 'fSurname', 'sSurname', 'email'],
+        include: {
+          model: Role,
+          where: {
+            role,
+          },
+        },
+      });
     } catch (err) {
+      console.log(err);
       return new ResponseError(TYPES_ERROR.ERROR, 'No existen usuarios', 'users_not_exist');
     }
   }
 
   async getRole({ userRoleData }) {
-    const { idUser, role } = userRoleData;
-    if (!idUser) {
+    const { UserId, role } = userRoleData;
+    if (!UserId) {
       return new ResponseError(TYPES_ERROR.FATAL, 'El id es necesario', 'id_empty');
     }
     try {
       const roleUser = await this.RoleModel.findOne({
         where: {
-          role, idUser,
+          role, UserId,
         },
       });
       return roleUser;

@@ -26,5 +26,5 @@ module.exports = async (idAdmin, { userRepositoryMySQL }) => {
     throw new ResponseError(TYPES_ERROR.ERROR, 'El usuario actual necesita rol de Administrador de Sistemas para listar usuarios', 'role_not_assigned');
   }
 
-  return userRepositoryMySQL.getListUsers();
+  return userRepositoryMySQL.getListUsers({ role: ROLES.TEACHER });
 };

@@ -35,7 +35,7 @@ module.exports = async (idAdmin, teacher, { userRepositoryMySQL }) => {
   const { id } = teacherInfo;
   const role = teacher.getRole();
   const roleData = {
-    idUser: id,
+    UserId: id,
     role,
   };
   await userRepositoryMySQL.addRole({ roleData });
