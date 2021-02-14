@@ -15,8 +15,27 @@ router.post('/', async (req, res, next) => {
       throw new ResponseError(TYPES_ERROR.ERROR, 'Los parámetros introducidos son incorrectos o están incompletos', 'incomplete_data');
     }
 
-    // eslint-disable-next-line max-len
     const adminSystem = await AdminSystemController.createAdminSystem({ adminSystemData: req.body });
+    res.json(adminSystem);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/* Get AdminSystem */
+router.get('/:id', async (req, res, next) => {
+  try {
+    // Comprobamos que se reciben el idAdmin y el idUser
+    if (!req.params.id || !req.body.idUser) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'Los ids deben ser números', 'incomplete_data');
+    }
+
+    // Comprobamos que los ids recibidos son números
+    if (Number.isNaN(Number(req.params.id)) || Number.isNaN(Number(req.body.idUser))) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
+    }
+
+    const adminSystem = await AdminSystemController.getAdminSystem({ usersData: { idAdmin: req.params.id, idUser: req.body.idUser } });
     res.json(adminSystem);
   } catch (err) {
     next(err);
@@ -41,6 +60,11 @@ router.delete('/:id', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+router.use((err, req, res, next) => {
+  const status = errorToStatus(err);
+  res.status(status).json(err.toJSON());
 });
 
 module.exports = router;

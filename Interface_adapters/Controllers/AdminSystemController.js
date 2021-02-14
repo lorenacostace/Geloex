@@ -1,5 +1,6 @@
 const CreateAdminSystem = require('../../Application_business_rules/Use_cases/AdminSystem/CreateAdminSystem');
 const DeleteAdminSystem = require('../../Application_business_rules/Use_cases/AdminSystem/DeleteAdminSystem');
+const GetAdminSystem = require('../../Application_business_rules/Use_cases/AdminSystem/GetAdminSystem');
 
 const AdminEntity = require('../../Enterprise_business_rules/Entities/AdminSystem');
 
@@ -16,5 +17,9 @@ module.exports = {
 
   async deleteAdminSystem({ usersData }) {
     return DeleteAdminSystem({ usersData }, { userRepositoryMySQL });
+  },
+
+  async getAdminSystem({ usersData }) {
+    return GetAdminSystem({ usersData }, { userRepositoryMySQL });
   },
 };
