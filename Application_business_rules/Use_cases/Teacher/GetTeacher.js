@@ -34,8 +34,8 @@ module.exports = async ({ usersData }, { userRepositoryMySQL }) => {
   }
 
   // Se comprueba que el idAdmin tiene rol de administrador de sistemas
-  const isRoleTeacher = await userRepositoryMySQL.getRole({ userRoleData: { idUser: idAdmin, role: ROLES.TEACHER } });
-  if (!isRoleAdmin) {
+  const isRoleTeacher = await userRepositoryMySQL.getRole({ userRoleData: { UserId: idUser, role: ROLES.TEACHER } });
+  if (!isRoleTeacher) {
     throw new ResponseError(TYPES_ERROR.ERROR, 'El usuario no tiene rol de profesor', 'role_not_assigned');
   }
 
