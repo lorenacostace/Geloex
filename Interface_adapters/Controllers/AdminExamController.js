@@ -1,6 +1,7 @@
 const CreateAdminExam = require('../../Application_business_rules/Use_cases/AdminExam/CreateAdminExam');
 const GetAdminExam = require('../../Application_business_rules/Use_cases/AdminExam/GetAdminExam');
 const ListAdminExam = require('../../Application_business_rules/Use_cases/AdminExam/ListAdminExam');
+const DeleteAdminExam = require('../../Application_business_rules/Use_cases/AdminExam/DeleteAdminExam');
 
 const AdminExamEntity = require('../../Enterprise_business_rules/Entities/AdminExam');
 
@@ -22,5 +23,9 @@ module.exports = {
 
   async listAdminExam(idAdmin) {
     return ListAdminExam(idAdmin, { userRepositoryMySQL });
+  },
+
+  async deleteAdminExam({ usersData }) {
+    return DeleteAdminExam({ usersData }, { userRepositoryMySQL });
   },
 };
