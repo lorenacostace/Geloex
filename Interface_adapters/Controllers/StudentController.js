@@ -1,4 +1,5 @@
 const CreateStudent = require('../../Application_business_rules/Use_cases/Student/CreateStudent');
+const GetStudent = require('../../Application_business_rules/Use_cases/Student/GetStudent');
 
 const StudentEntity = require('../../Enterprise_business_rules/Entities/Student');
 
@@ -12,5 +13,9 @@ module.exports = {
     const { idAdmin, ...userData } = studentData;
     const student = new StudentEntity(userData);
     return CreateStudent(idAdmin, student, { userRepositoryMySQL });
+  },
+
+  async getStudent({ usersData }) {
+    return GetStudent({ usersData }, { userRepositoryMySQL });
   },
 };
