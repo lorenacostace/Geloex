@@ -1,6 +1,7 @@
 const CreateStudent = require('../../Application_business_rules/Use_cases/Student/CreateStudent');
 const GetStudent = require('../../Application_business_rules/Use_cases/Student/GetStudent');
 const ListStudent = require('../../Application_business_rules/Use_cases/Student/ListStudent');
+const DeleteStudent = require('../../Application_business_rules/Use_cases/Student/DeleteStudent');
 
 const StudentEntity = require('../../Enterprise_business_rules/Entities/Student');
 
@@ -22,5 +23,9 @@ module.exports = {
 
   async listStudent(idAdmin) {
     return ListStudent(idAdmin, { userRepositoryMySQL });
+  },
+
+  async deleteStudent({ usersData }) {
+    return DeleteStudent({ usersData }, { userRepositoryMySQL });
   },
 };

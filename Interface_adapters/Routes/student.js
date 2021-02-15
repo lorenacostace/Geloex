@@ -62,6 +62,26 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+/* Delete Student */
+router.delete('/:id', async (req, res, next) => {
+  try {
+    // Se comprueba que se han recibido idAdmin e idUser
+    if (!req.params.id || !req.body.id) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'El identificador del administrador y el del usuario son necesarios', 'incomplete_data');
+    }
+
+    // Se comprueba que idAdmin y idUser sean números
+    if (Number.isNaN(Number(req.params.id)) || Number.isNaN(Number(req.body.id))) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'Los ids deben ser números', 'id_format_error');
+    }
+
+    await studentController.deleteStudent({ usersData: { idAdmin: req.params.id, idUser: req.body.id } });
+    res.json({ state: 'OK' });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.use((err, req, res, next) => {
   const status = errorToStatus(err);
   res.status(status).json(err.toJSON());
