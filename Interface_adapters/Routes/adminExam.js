@@ -82,6 +82,36 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
+/* Modify AdminExam */
+router.patch('/:id', async (req, res, next) => {
+  try {
+    // Se comprueba que se ha recibido el idAdmin y el del usuario
+    if (!req.params.id || !req.body.idUser) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'Los IDs son necesarios para actualizar el profesor', 'id_empty');
+    }
+
+    // Se comrprueba que los IDs sean números
+    if (Number.isNaN(Number(req.params.id)) || Number.isNaN(Number(req.body.idUser))) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'Los IDs deben ser números', 'id_format_error');
+    }
+    // Se comprueba que al menos exista un dato para ser actualizado
+    const { name, fSurname, sSurname, email } = req.body;
+    if (!name && !fSurname && !sSurname && !email) {
+      throw new ResponseError(TYPES_ERROR.ERROR, 'Es necesario al menos un parámetro para actualizar', 'incomplete_data');
+    }
+
+    const usersData = {
+      idAdmin: req.params.id,
+      ...req.body,
+    };
+
+    await AdminExamController.updateAdminExam({ usersData });
+    res.json({ state: 'OK' });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.use((err, req, res, next) => {
   const status = errorToStatus(err);
   res.status(status).json(err.toJSON());
