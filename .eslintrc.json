@@ -18,7 +18,8 @@
       "strict": "off",
       "object-curly-newline": "off",
       "class-methods-use-this": "warn",
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "max-len": "off"
     },
   "ignorePatterns": [
     "node_modules/"
