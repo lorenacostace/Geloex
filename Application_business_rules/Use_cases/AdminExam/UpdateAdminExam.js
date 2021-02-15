@@ -28,8 +28,8 @@ module.exports = async ({ usersData }, { userRepositoryMySQL }) => {
     throw new ResponseError(TYPES_ERROR.ERROR, 'El usuario actual necesita rol de Administrador de Sistemas para actualizar un rol a un usuario', 'role _assigned');
   }
   // Se comprueba que existe un usuario para ese id
-  const seqTeacher = await userRepositoryMySQL.getUser(idUser);
-  if (!seqTeacher) {
+  const adminExamExist = await userRepositoryMySQL.getUser(idUser);
+  if (!adminExamExist) {
     throw new ResponseError(TYPES_ERROR.FATAL, 'El usuario no existe', 'user_not_exist');
   }
 

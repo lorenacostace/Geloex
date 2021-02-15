@@ -23,19 +23,19 @@ router.post('/', async (req, res, next) => {
 });
 
 /* Get AdminExam */
-router.get('/:id', async (req, res, next) => {
+router.get('/:idAdmin', async (req, res, next) => {
   try {
     // Comprobamos que se reciben el idAdmin y el idUser
-    if (!req.params.id || !req.body.idUser) {
+    if (!req.params.idAdmin || !req.body.idUser) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'Los ids deben ser números', 'incomplete_data');
     }
 
     // Comprobamos que los ids recibidos son números
-    if (Number.isNaN(Number(req.params.id)) || Number.isNaN(Number(req.body.idUser))) {
+    if (Number.isNaN(Number(req.params.idAdmin)) || Number.isNaN(Number(req.body.idUser))) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
     }
 
-    const adminExam = await AdminExamController.getAdminExam({ usersData: { idAdmin: req.params.id, idUser: req.body.idUser } });
+    const adminExam = await AdminExamController.getAdminExam({ usersData: { idAdmin: req.params.idAdmin, idUser: req.body.idUser } });
     res.json(adminExam);
   } catch (err) {
     next(err);
@@ -45,17 +45,17 @@ router.get('/:id', async (req, res, next) => {
 /* List AdminExam */
 router.get('/', async (req, res, next) => {
   try {
-    // Comprobamos que se reciben el idAdmin y el idUser
-    if (!req.body.id) {
+    // Comprobamos que se reciben el idAdmin
+    if (!req.body.idAdmin) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'El ID es necesario para listar los usuarios', 'incomplete_data');
     }
 
     // Comprobamos que los ids recibidos son números
-    if (Number.isNaN(Number(req.body.id))) {
+    if (Number.isNaN(Number(req.body.idAdmin))) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
     }
 
-    const adminExam = await AdminExamController.listAdminExam(req.body.id);
+    const adminExam = await AdminExamController.listAdminExam(req.body.idAdmin);
     res.json(adminExam);
   } catch (err) {
     next(err);
@@ -63,19 +63,19 @@ router.get('/', async (req, res, next) => {
 });
 
 /* Delete AdminExam */
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:idAdmin', async (req, res, next) => {
   try {
     // Se comprueba que se han recibido idAdmin e idUser
-    if (!req.params.id || !req.body.idUser) {
+    if (!req.params.idAdmin || !req.body.idUser) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'El identificador del administrador y el del usuario son necesarios', 'incomplete_data');
     }
 
     // Se comprueba que idAdmin y idUser sean números
-    if (Number.isNaN(Number(req.params.id)) || Number.isNaN(Number(req.body.idUser))) {
+    if (Number.isNaN(Number(req.params.idAdmin)) || Number.isNaN(Number(req.body.idUser))) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'Los ids deben ser números', 'id_format_error');
     }
 
-    await AdminExamController.deleteAdminExam({ usersData: { idAdmin: req.params.id, idUser: req.body.idUser } });
+    await AdminExamController.deleteAdminExam({ usersData: { idAdmin: req.params.idAdmin, idUser: req.body.idUser } });
     res.json({ state: 'OK' });
   } catch (err) {
     next(err);
@@ -83,15 +83,15 @@ router.delete('/:id', async (req, res, next) => {
 });
 
 /* Modify AdminExam */
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:idAdmin', async (req, res, next) => {
   try {
     // Se comprueba que se ha recibido el idAdmin y el del usuario
-    if (!req.params.id || !req.body.idUser) {
-      throw new ResponseError(TYPES_ERROR.FATAL, 'Los IDs son necesarios para actualizar el profesor', 'id_empty');
+    if (!req.params.idAdmin || !req.body.idUser) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'Los IDs son necesarios para actualizar al adminsitrador de exámenes', 'id_empty');
     }
 
     // Se comrprueba que los IDs sean números
-    if (Number.isNaN(Number(req.params.id)) || Number.isNaN(Number(req.body.idUser))) {
+    if (Number.isNaN(Number(req.params.idAdmin)) || Number.isNaN(Number(req.body.idUser))) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'Los IDs deben ser números', 'id_format_error');
     }
     // Se comprueba que al menos exista un dato para ser actualizado
@@ -101,7 +101,7 @@ router.patch('/:id', async (req, res, next) => {
     }
 
     const usersData = {
-      idAdmin: req.params.id,
+      idAdmin: req.params.idAdmin,
       ...req.body,
     };
 
