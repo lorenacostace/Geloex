@@ -23,7 +23,7 @@ module.exports = async ({ usersData }, { userRepositoryMySQL }) => {
   }
 
   // Se comprueba que el idAdmin tiene rol de adminsitrador de sistemas
-  const isRoleAdmin = await userRepositoryMySQL.getRole({ userRoleData: { idUser: idAdmin, role: ROLES.ADMIN_SYS } });
+  const isRoleAdmin = await userRepositoryMySQL.getRole({ userRoleData: { UserId: idAdmin, role: ROLES.ADMIN_SYS } });
   if (!isRoleAdmin) {
     throw new ResponseError(TYPES_ERROR.ERROR, 'El usuario actual necesita rol de Administrador de Sistemas para añadir un rol a un usuario', 'role _assigned');
   }
@@ -37,6 +37,13 @@ module.exports = async ({ usersData }, { userRepositoryMySQL }) => {
   if (!name && !fSurname && !sSurname && !email) {
     throw new ResponseError(TYPES_ERROR.ERROR, 'Es necesario al menos un parámetro para actualizar', 'incomplete_data');
   }
+
+  // Se comprueba que el usuario con idUser es un administrador de sistemas
+  const hasRoleAdmin = await userRepositoryMySQL.getRole({ userRoleData: { UserId: idUser, role: ROLES.ADMIN_SYS } });
+  if (!hasRoleAdmin) {
+    throw new ResponseError(TYPES_ERROR.ERROR, 'El usuario no tiene rol de administrador de sistemas', 'role_not_assigned');
+  }
+
   const userData = {
     id: idUser, name, fSurname, sSurname, email,
   };
