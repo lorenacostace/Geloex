@@ -23,7 +23,7 @@ module.exports = async ({ usersData }, { userRepositoryMySQL }) => {
   }
 
   // Se comprueba que el idAdmin tiene rol de administrador de sistemas
-  const isRoleAdmin = await userRepositoryMySQL.getRole({ userRoleData: { idUser: idAdmin, role: ROLES.ADMIN_SYS } });
+  const isRoleAdmin = await userRepositoryMySQL.getRole({ userRoleData: { UserId: idAdmin, role: ROLES.ADMIN_SYS } });
   if (!isRoleAdmin) {
     throw new ResponseError(TYPES_ERROR.ERROR, 'El usuario actual necesita rol de Administrador de Sistemas para añadir un rol a un usuario', 'role_not_assigned');
   }
