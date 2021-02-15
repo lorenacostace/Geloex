@@ -1,5 +1,6 @@
 const CreateStudent = require('../../Application_business_rules/Use_cases/Student/CreateStudent');
 const GetStudent = require('../../Application_business_rules/Use_cases/Student/GetStudent');
+const ListStudent = require('../../Application_business_rules/Use_cases/Student/ListStudent');
 
 const StudentEntity = require('../../Enterprise_business_rules/Entities/Student');
 
@@ -17,5 +18,9 @@ module.exports = {
 
   async getStudent({ usersData }) {
     return GetStudent({ usersData }, { userRepositoryMySQL });
+  },
+
+  async listStudent(idAdmin) {
+    return ListStudent(idAdmin, { userRepositoryMySQL });
   },
 };

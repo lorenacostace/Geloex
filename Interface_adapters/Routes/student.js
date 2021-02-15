@@ -42,6 +42,26 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+/* List AdminExam */
+router.get('/', async (req, res, next) => {
+  try {
+    // Comprobamos que se reciben el idAdmin y el idUser
+    if (!req.body.idAdmin) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'El ID es necesario para listar los usuarios', 'incomplete_data');
+    }
+
+    // Comprobamos que los ids recibidos son números
+    if (Number.isNaN(Number(req.body.idAdmin))) {
+      throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
+    }
+
+    const student = await studentController.listStudent(req.body.idAdmin);
+    res.json(student);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.use((err, req, res, next) => {
   const status = errorToStatus(err);
   res.status(status).json(err.toJSON());
