@@ -13,6 +13,7 @@ const adminSystRouter = require('../../Interface_adapters/Routes/adminSystem');
 const roleRouter = require('../../Interface_adapters/Routes/role');
 const examRouter = require('../../Interface_adapters/Routes/exam');
 const adminExamRouter = require('../../Interface_adapters/Routes/adminExam');
+const studentRouter = require('../../Interface_adapters/Routes/student');
 
 const ResponseError = require('../../Enterprise_business_rules/Manage_error/ResponseError');
 
@@ -46,6 +47,7 @@ const UserValidation = {
 app.use('/adminSystem', adminSystRouter);
 app.use('/adminExam', adminExamRouter);
 app.use('/teacher', teacherRouter);
+app.use('/student', studentRouter);
 app.use('/space', spaceRouter);
 app.use('/subject', subjectRouter);
 app.use('/role', roleRouter);
