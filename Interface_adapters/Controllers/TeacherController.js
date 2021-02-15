@@ -13,8 +13,8 @@ const userRepositoryMySQL = new UserRepository(new UserRepositoryMySQL());
 
 module.exports = {
   createTeacher({ teacherData }) {
-    const { idAdmin } = teacherData;
-    const teacher = new TeacherEntity({ userData: { idAdmin, ...teacherData } });
+    const { idAdmin, ...userData } = teacherData;
+    const teacher = new TeacherEntity({ userData });
     return CreateTeacher(idAdmin, teacher, { userRepositoryMySQL });
   },
 

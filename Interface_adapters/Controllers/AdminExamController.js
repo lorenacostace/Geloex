@@ -13,8 +13,8 @@ const userRepositoryMySQL = new UserRepository(new UserRepositoryMySQL());
 
 module.exports = {
   createAdminExam({ adminExamData }) {
-    const { idAdmin } = adminExamData;
-    const adminExam = new AdminExamEntity({ userData: { idAdmin, ...adminExamData } });
+    const { idAdmin, ...userData } = adminExamData;
+    const adminExam = new AdminExamEntity({ userData });
     return CreateAdminExam(idAdmin, adminExam, { userRepositoryMySQL });
   },
 

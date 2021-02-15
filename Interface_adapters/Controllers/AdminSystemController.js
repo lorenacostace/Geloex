@@ -13,8 +13,8 @@ const userRepositoryMySQL = new UserRepository(new UserRepositoryMySQL());
 
 module.exports = {
   createAdminSystem({ adminSystemData }) {
-    const { idAdmin } = adminSystemData;
-    const adminSys = new AdminEntity({ userData: idAdmin, ...adminSystemData });
+    const { idAdmin, ...userData } = adminSystemData;
+    const adminSys = new AdminEntity({ userData });
     return CreateAdminSystem(idAdmin, adminSys, { userRepositoryMySQL });
   },
 
