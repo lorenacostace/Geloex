@@ -26,6 +26,17 @@ module.exports = async (idAdmin, exam, { examRepositoryMySQL }, { userRepository
     throw new ResponseError(TYPES_ERROR.ERROR, 'El usuario actual necesita rol de Administrador de Sistemas para añadir un rol a un usuario', 'role _assigned');
   }
 
+  // Se comprueba que ya exista un examen con esta asignatura, el grupo y la fecha
+  const dataExam = {
+    subject: exam.subject,
+    group: exam.group,
+    date: exam.date.toString(),
+  };
+  const existExam = await examRepositoryMySQL.existExam(dataExam);
+  if (existExam) {
+    throw new ResponseError(TYPES_ERROR.ERROR, 'Ya existe un examen con estos datos', 'exam_exist');
+  }
+
   const examData = exam.toJSON();
   return examRepositoryMySQL.createExam(examData);
 };
