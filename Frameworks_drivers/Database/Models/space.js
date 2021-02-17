@@ -7,5 +7,8 @@ module.exports = (sequelize, type) => sequelize.define('Space', {
   name: type.STRING,
   numRows: type.INTEGER,
   numSeats: type.INTEGER,
-  isLab: type.BOOLEAN,
+  isLab: {
+    type: type.BOOLEAN,
+    defaultValue: false,
+  },
 });

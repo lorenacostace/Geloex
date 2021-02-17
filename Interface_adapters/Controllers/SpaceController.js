@@ -8,8 +8,11 @@ const SpaceEntity = require('../../Enterprise_business_rules/Entities/Space');
 
 const SpaceRepository = require('../../Enterprise_business_rules/Repositories/SpaceRepository');
 const SpaceRepositoryMySQL = require('../../Frameworks_drivers/Storage/MySQL/SpaceRepositoryMySQL');
+const UserRepository = require('../../Enterprise_business_rules/Repositories/UserRepository');
+const UserRepositoryMySQL = require('../../Frameworks_drivers/Storage/MySQL/UserRepositoryMySQL');
 
 const spaceRepositoryMySQL = new SpaceRepository(new SpaceRepositoryMySQL());
+const userRepositoryMySQL = new UserRepository(new UserRepositoryMySQL());
 
 module.exports = {
   createSpace({ spaceData }) {
@@ -17,8 +20,8 @@ module.exports = {
     return CreateSpace(space, { spaceRepositoryMySQL });
   },
 
-  async listSpaces() {
-    return ListSpaces({ spaceRepositoryMySQL });
+  async listSpaces(idAdmin) {
+    return ListSpaces(idAdmin, { spaceRepositoryMySQL }, { userRepositoryMySQL });
   },
 
   async getSpace(id) {

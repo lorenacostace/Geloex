@@ -7,12 +7,12 @@ const { TYPES_ERROR } = require('../../Enterprise_business_rules/Manage_error/co
 const errorToStatus = require('../../Frameworks_drivers/errorToStatus');
 
 /* Create Space */
-router.post('/', async (req, res, next) => {
+router.post('/:idAdmin', async (req, res, next) => {
   try {
     const { name, numRows, numSeats, isLab } = req.body;
 
     // Se comprueba si algún dato requerido no ha sido introducido
-    if (!name || !numRows || !numSeats) {
+    if (!name || !numRows || !numSeats || !req.params.idAdmin) {
       throw new ResponseError(TYPES_ERROR.ERROR, 'El nombre, número de asientos y número de filas son necesario', 'incomplete_data');
     }
     if (!isLab) {
@@ -21,7 +21,6 @@ router.post('/', async (req, res, next) => {
     const space = await SpaceController.createSpace({ spaceData: req.body });
     res.json(space);
   } catch (err) {
-    // eslint-disable-next-line no-console
     next(err);
   }
 });
@@ -29,7 +28,10 @@ router.post('/', async (req, res, next) => {
 /* List Spaces */
 router.get('/', async (req, res, next) => {
   try {
-    const spaces = await SpaceController.listSpaces();
+    if (!req.body.idAdmin) {
+      throw new ResponseError(TYPES_ERROR.ERROR, 'El id del administrador de exámenes es necesario', 'incomplete_data');
+    }
+    const spaces = await SpaceController.listSpaces(req.body.idAdmin);
     res.json(spaces);
   } catch (err) {
     next(err);
@@ -37,19 +39,18 @@ router.get('/', async (req, res, next) => {
 });
 
 /* Get Space */
-router.get('/:id', async (req, res, next) => {
+router.get('/:idAdmin', async (req, res, next) => {
   try {
-    const { id } = req.params;
-    if (!id) {
+    if (!req.params.idAdmin || !req.body.id) {
       throw new ResponseError(TYPES_ERROR.ERROR, 'Es necesario seleccionar un aula o laboratorio', 'incomplete_data');
     }
 
     // Comprobamos que el ID es un número
-    if (Number.isNaN(Number(req.params.id))) {
+    if (Number.isNaN(Number(req.params.idAdmin)) || Number.isNaN(Number(req.body.id))) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
     }
 
-    const space = await SpaceController.getSpace(id);
+    const space = await SpaceController.getSpace(req.body.id);
     res.json(space);
   } catch (err) {
     next(err);
@@ -57,14 +58,14 @@ router.get('/:id', async (req, res, next) => {
 });
 
 /* Delete Space */
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:idAdmin', async (req, res, next) => {
   try {
     // Comprobamos que el ID es un número
-    if (Number.isNaN(Number(req.params.id))) {
+    if (Number.isNaN(Number(req.body.id))) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'El ID debe ser un número', 'id_format_error');
     }
 
-    await SpaceController.deleteSpace(req.params.id);
+    await SpaceController.deleteSpace(req.body.id);
     res.json({ state: 'OK' });
   } catch (err) {
     next(err);

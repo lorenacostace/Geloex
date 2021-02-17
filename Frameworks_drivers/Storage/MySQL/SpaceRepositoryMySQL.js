@@ -13,7 +13,9 @@ class SpaceRepositoryMySQL {
   async createSpace({ spaceData }) {
     const { name, numRows, numSeats, isLab } = spaceData;
     try {
-      return this.model.create({ name, numRows, numSeats, isLab });
+      const space = await this.model.create({ name, numRows, numSeats, isLab });
+      return space;
+      // console.log(space);
     } catch (err) {
       throw new ResponseError(TYPES_ERROR.FATAL, 'Fallo al crear el aula o laboratorio', 'error_create_space');
     }
