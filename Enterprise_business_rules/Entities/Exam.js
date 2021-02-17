@@ -1,13 +1,16 @@
+const { STATE } = require('../constant');
 
 class Exam {
-  constructor({ subject, teacher, group }) {
-    this.teacher = teacher;
+  constructor(examData) {
+    const { subject, group, teacher, year, month, day, hour, minutes, space } = examData;
+    const date = { year, month, day, hour, minutes };
+
     this.subject = subject;
-    this.students = null;
-    this.space = null;
-    this.date = null;
     this.group = group;
-    this.state = null;
+    this.teacher = teacher;
+    this.space = space;
+    this.date = new Date(year, month, day, hour, minutes, 0);
+    this.state = STATE.ToDo;
   }
 
   getSubject() {
@@ -16,10 +19,6 @@ class Exam {
 
   getTeacher() {
     return this.teacher;
-  }
-
-  getStudents() {
-    return this.students;
   }
 
   getGroup() {
@@ -46,10 +45,6 @@ class Exam {
     this.teacher = teacher;
   }
 
-  setStudents(students) {
-    this.teacher = students;
-  }
-
   setGroup(group) {
     this.group = group;
   }
@@ -64,6 +59,17 @@ class Exam {
 
   setStatus(status) {
     this.status = status;
+  }
+
+  toJSON() {
+    return {
+      subject: this.subject,
+      group: this.group,
+      dateExam: this.date,
+      teacher: this.email,
+      space: this.role,
+      state: this.state,
+    };
   }
 }
 
