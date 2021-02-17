@@ -19,7 +19,6 @@ router.post('/', async (req, res, next) => {
     const subject = await SubjectController.createSubject(name);
     res.json(subject);
   } catch (err) {
-    // eslint-disable-next-line no-console
     next(err);
   }
 });
