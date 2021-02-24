@@ -3,9 +3,9 @@ const { TYPES_ERROR } = require('../../../Enterprise_business_rules/Manage_error
 
 const { ROLES } = require('../../../Enterprise_business_rules/constant');
 
-module.exports = async ({ dataExam }, repositories) => {
+module.exports = async (dataExam, repositories) => {
   const { idAdmin, id, subject, group, date, teacher, space, state } = dataExam;
-  const { userRepositoryMySQL, examRepositoryMySQL } = repositories;
+  const { userRepositoryMySQL, examRepositoryMySQL, reservationRepositoryMySQL } = repositories;
 
   // Se comprueban que se han recibido el id del administrador de sistemas y el id del examen
   if (!idAdmin || !id) {
@@ -37,6 +37,16 @@ module.exports = async ({ dataExam }, repositories) => {
   // Se comprueba que al menos se ha recibido un parámetro para modificar
   if (!subject && !group && !date && !teacher && !space && !state) {
     throw new ResponseError(TYPES_ERROR.ERROR, 'Es necesario al menos un parámetro para actualizar', 'incomplete_data');
+  }
+
+  // Se comprueba si se va a actualizar un aula, y si es así, se actualiza la reserva o se reserva
+  if (space) {
+    const reservationData = {
+      ExamId: id,
+      SpaceId: space,
+      date: existExam.date,
+    };
+    await reservationRepositoryMySQL.addReservation(reservationData);
   }
 
   return examRepositoryMySQL.updateExam({ examData: { idAdmin, ...dataExam } });

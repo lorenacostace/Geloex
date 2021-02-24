@@ -3,7 +3,8 @@ const { TYPES_ERROR } = require('../../../Enterprise_business_rules/Manage_error
 
 const { ROLES } = require('../../../Enterprise_business_rules/constant');
 
-module.exports = async (idAdmin, exam, { examRepositoryMySQL }, { userRepositoryMySQL }) => {
+module.exports = async (idAdmin, exam, repositories) => {
+  const { examRepositoryMySQL, userRepositoryMySQL, reservationRepositoryMySQL } = repositories;
   // Se comprueba que se recibe idUser y es un número
   if (idAdmin && Number.isNaN(Number(idAdmin))) {
     throw new ResponseError(TYPES_ERROR.FATAL, 'El id es necesario y debe ser un número', 'id_format_error');
@@ -38,5 +39,18 @@ module.exports = async (idAdmin, exam, { examRepositoryMySQL }, { userRepository
   }
 
   const examData = exam.toJSON();
-  return examRepositoryMySQL.createExam(examData);
+  const examInfo = await examRepositoryMySQL.createExam(examData);
+
+  // Se comprueba si se va a actualizar un aula, y si es así, se actualiza la reserva o se reserva
+  const { id } = examInfo;
+  if (exam.getSpace()) {
+    const reservationData = {
+      ExamId: id,
+      SpaceId: exam.getSpace(),
+      date: exam.date.toString(),
+    };
+    await reservationRepositoryMySQL.addReservation(reservationData);
+  }
+
+  return examInfo;
 };
