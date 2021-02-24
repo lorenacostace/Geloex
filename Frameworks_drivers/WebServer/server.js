@@ -14,6 +14,7 @@ const roleRouter = require('../../Interface_adapters/Routes/role');
 const examRouter = require('../../Interface_adapters/Routes/exam');
 const adminExamRouter = require('../../Interface_adapters/Routes/adminExam');
 const studentRouter = require('../../Interface_adapters/Routes/student');
+const inscribedRouter = require('../../Interface_adapters/Routes/inscribed');
 
 const ResponseError = require('../../Enterprise_business_rules/Manage_error/ResponseError');
 
@@ -52,6 +53,7 @@ app.use('/space', spaceRouter);
 app.use('/subject', subjectRouter);
 app.use('/role', roleRouter);
 app.use('/exam', examRouter);
+app.use('/inscribed', inscribedRouter);
 app.all('*', (req, res, next) => {
   next(new ResponseError(`No se puede encontrar ${req.originalUrl} en este servidor`, 404));
 });
